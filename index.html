@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: url('images/background.jpg.jpg') center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    /* 牛頓擺容器：嚴格底部對齊 */
+    .cradle {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      position: relative;
+      margin-top: 15px; /* <- 1. 這裡補上一行 */
+    }
+    .cradle::after {
+      content: '';
+      position: absolute;
+      top: -98px;      /* 調整到剛好蓋住線的頂端 */
+      left: -25px;
+      right: -25px;
+      height: 14px;    /* 💡 把橫桿加粗，徹底擋住旋轉點，看起來就像穩穩固定在桿子上！ */
+      background-color: #7b6348; 
+      border-radius: 4px;
+      z-index: 10;     /* 確保橫桿蓋在線的最上方 */
+    }
+    /* 每顆蛋的獨立擺錘容器 */
+    .egg-item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: top center;
+    }
+
+    /* 每顆蛋頭頂的吊線：直接插進蛋的背後/頭頂，絕不騰空 */
+    .egg-item::before {
+      content: '';
+      position: absolute;
+      top: -90px;
+      left: 50%;
+      width: 2px;
+      height: 105px;
+      background-color: #7b6348;
+      transform: translateX(-50%);
+      z-index: -1;
+    }
+
+    /* 統一所有蛋的大小 */
+    .egg-item img {
+      height: 90px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* --- 間距精準調校 --- */
+
+    /* 1. 左紅蛋：稍微往外移，保留與綠蛋的撞擊空間 */
+    .egg-1 {
+      animation: swingLeft 1.4s ease-in-out infinite;
+      margin-right: -4px; /* 距離拉開，不再重疊進綠蛋裡 */
+      z-index: 5;
+    }
+
+    /* 2. 中間第一顆綠蛋 */
+    .egg-2 {
+      animation: middleHit1 1.4s ease-in-out infinite;
+      margin-right: -28px; /* 中間三顆維持完全並在一起、零間距 */
+      z-index: 4;
+    }
+
+    /* 3. 中間黃帽蛋 */
+    .egg-3 {
+      animation: middleHit2 1.4s ease-in-out infinite;
+      margin-right: -28px; /* 中間三顆維持完全並在一起、零間距 */
+      z-index: 3;
+    }
+
+    /* 4. 中間第二顆綠蛋 */
+    .egg-4 {
+      animation: middleHit1 1.4s ease-in-out infinite;
+      margin-right: -4px;  /* 讓右紅蛋有空間可以分開、不重疊 */
+      z-index: 2;
+    }
+
+    /* 5. 右紅蛋：稍微往外移，保留撞擊空間 */
+    .egg-5 {
+      animation: swingRight 1.4s ease-in-out infinite;
+      z-index: 5;
+    }
+
+    /* --- 動畫設定 --- */
+    @keyframes swingLeft {
+      0%, 50% { transform: rotate(0deg); }
+      25% { transform: rotate(-24deg); }
+      35% { transform: rotate(0deg); }
+    }
+
+    @keyframes swingRight {
+      0%, 50% { transform: rotate(0deg); }
+      75% { transform: rotate(24deg); }
+      85% { transform: rotate(0deg); }
+    }
+
+    @keyframes middleHit1 {
+      0%, 20%, 50%, 70%, 100% { transform: rotate(0deg); }
+      28% { transform: rotate(3deg); }
+      78% { transform: rotate(-2deg); }
+    }
+
+    @keyframes middleHit2 {
+      0%, 20%, 50%, 70%, 100% { transform: rotate(0deg); }
+      28% { transform: rotate(2deg); }
+      78% { transform: rotate(-3deg); }
+    }
+
+    /* 手寫 Loading 圖片 */
+    .loading-img {
+      width: 160px;
+      height: auto;
+      animation: fadeInText 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes fadeInText {
+      0% { opacity: 0.3; transform: scale(0.96); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="cradle">
+      <!-- 1. 左紅蛋 -->
+      <div class="egg-item egg-1">
+        <img src="images/red.png.png" alt="左紅蛋">
+      </div>
+
+      <!-- 2. 中間綠蛋 1 -->
+      <div class="egg-item egg-2">
+        <img src="images/green.png.png" alt="綠蛋1">
+      </div>
+
+      <!-- 3. 中間黃帽蛋 -->
+      <div class="egg-item egg-3">
+        <img src="images/yellow.png.png" alt="黃蛋">
+      </div>
+
+      <!-- 4. 中間綠蛋 2 -->
+      <div class="egg-item egg-4">
+        <img src="images/green.png.png" alt="綠蛋2">
+      </div>
+
+      <!-- 5. 右紅蛋 -->
+      <div class="egg-item egg-5">
+        <img src="images/red.png.png" alt="右紅蛋">
+      </div>
+    </div>
+
+    <!-- Loading 圖片 -->
+    <img src="images/loading.png.png" alt="Loading..." class="loading-img">
+  </div>
+
+</body>
+</html>
